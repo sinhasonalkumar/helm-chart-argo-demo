@@ -1,1 +1,1 @@
-# micro-service-helm-chart-argo-demo
+# helm-charts-argo-demo
