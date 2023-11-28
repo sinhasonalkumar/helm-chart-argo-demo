@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Values.serviceName }}
+  namespace: {{ .Values.enviroment }}-{{ .Values.domain }}
+spec:
+  hosts:
+{{- range .Values.appNetworking.apiHosts }}
+  - {{ . }}
+{{- end }}
+
+  gateways:
+{{- range .Values.appNetworking.gateways }}
+  - {{ . }}
+{{- end }}
+  http:
+  - match:
+    - uri:
+        prefix: /{{ .Values.serviceBaseContext }}/v1
+    corsPolicy:
+{{ toYaml .Values.appNetworking.corsPolicy | indent 6 }}
+    route:
+    - destination:
+        host: {{ .Values.serviceName }}.{{ .Values.enviroment }}-{{ .Values.domain }}.svc.cluster.local
+        port:
+          number: 80
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: connect-failure,refused-stream,503

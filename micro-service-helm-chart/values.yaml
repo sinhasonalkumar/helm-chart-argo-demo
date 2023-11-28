@@ -1,0 +1,49 @@
+enviroment: dev
+domain: demo
+serviceName: sp-micro-service-argo-demo
+serviceBaseContext: ds
+imageVersion: 1.0.0
+imagePullPolicy: Always
+replicas: 2
+port: 8080
+jvmArgs: "-Xms128m -Xmx512m"
+configRepository: https://raw.githubusercontent.com/sinhasonalkumar/sp-micro-service-config-argo-demo
+configRepositoryBranchOrTag: main
+resources:
+  requests:
+    memory: 512Mi
+  limits:
+    memory: 512Mi
+
+healthCheckURI: /ds/actuator/health
+healthCheckPort: 8080
+initContainer:
+  image: busybox:1.35.0
+
+appNetworking:
+  gateways:
+  - istio-system/micro-service-ig
+  apiHosts:
+  - api.mycompany.com
+  mgmtHost: mgmt-api.mycompany.com
+  corsPolicy:
+    allowOrigins:
+      - regex: 'http://*.company.com'
+    allowMethods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+    allowCredentials: false
+    allowHeaders:
+    - Authorization
+    - Content-Type
+    maxAge: "24h"
+
+
+
+
+
+
+ 
