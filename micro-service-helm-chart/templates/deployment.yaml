@@ -33,7 +33,7 @@ spec:
       #           - {{ .Values.serviceName }}
       #       topologyKey: "kubernetes.io/hostname"
       initContainers:
-      - name: initMicroService
+      - name: init-micro-service
         image: {{ .Values.initContainer.image }}
         args: [/bin/sh, -c, 'wget -O /app-configs/application.properties {{ .Values.configRepository }}/{{ .Values.configRepositoryBranchOrTag }}/defaults/application.properties && wget -O /app-configs/application-dev.properties https://raw.githubusercontent.com/sinhasonalkumar/sp-micro-service-config-argo-demo/main/overrides/application-{{ .Values.enviroment }}.properties']
         volumeMounts:
@@ -41,7 +41,7 @@ spec:
           mountPath: "/app-configs"
       containers:
       - image: sinhasonalkumar/{{ .Values.serviceName }}:{{ .Values.imageVersion }}
-        imagePullPolicy: {{ .Values.imageVersion }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         name: {{ .Values.serviceName }}
         ports:
         - containerPort: {{ .Values.port }}
