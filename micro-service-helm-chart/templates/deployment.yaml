@@ -35,7 +35,7 @@ spec:
       initContainers:
       - name: init-micro-service
         image: {{ .Values.initContainer.image }}
-        args: [/bin/sh, -c, 'wget -O /app-configs/application.properties {{ .Values.configRepository }}/{{ .Values.configRepositoryBranchOrTag }}/defaults/application.properties && wget -O /app-configs/application-dev.properties https://raw.githubusercontent.com/sinhasonalkumar/sp-micro-service-config-argo-demo/main/overrides/application-{{ .Values.enviroment }}.properties']
+        args: [/bin/sh, -c, 'wget -O /app-configs/application.properties {{ .Values.configRepository }}/{{ .Values.configRepositoryBranchOrTag }}/defaults/application.properties && wget -O /app-configs/application-{{ .Values.enviroment }}.properties https://raw.githubusercontent.com/sinhasonalkumar/sp-micro-service-config-argo-demo/main/overrides/application-{{ .Values.enviroment }}.properties']
         volumeMounts:
         - name: workdir
           mountPath: "/app-configs"
