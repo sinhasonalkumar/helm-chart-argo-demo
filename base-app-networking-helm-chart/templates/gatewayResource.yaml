@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: micro-service-ig
+  name: {{ .Values.enviroment }}-micro-service-ig
   namespace: istio-system
 spec:
   selector:
